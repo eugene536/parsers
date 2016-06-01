@@ -1,0 +1,11 @@
+var   a:integer;
+var b   :   char;
+var a, b, c: integer;
+
+var   a  , asdf, hello123Citty:   integer;
+      d, e:   char;
+      asdf, a: integer;
+
+var   a  , asdf, hello123Citty:   integer; d, e:   char; asdf, a: integer;
+
+
