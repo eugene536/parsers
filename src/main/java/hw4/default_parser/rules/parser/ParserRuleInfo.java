@@ -1,5 +1,6 @@
 package hw4.default_parser.rules.parser;
 
+import hw4.default_parser.lexer.MyTag;
 import hw4.default_parser.main.LexerGenerator;
 
 import java.util.ArrayList;
@@ -100,16 +101,26 @@ public class ParserRuleInfo {
             .append(r.text)
             .append("();\n");
         } else if (r instanceof ActionRule) {
-//          buf.append(r.text);
-        } else {
+          buf.append(r.text.replaceAll("\\$", "lctx."));
+        } else if (r instanceof LexerRule) {
           //TODO: assert token
+          buf.append("lctx.")
+            .append(r.text)
+            .append(" = ")
+            .append("lexer.getLastToken();\n");
+          buf.append("lexer.nextToken();\n");
+        } else {
           buf.append("lexer.nextToken();\n");
         }
         printed = true;
+
       }
       if (printed)
         buf.append("break;\n");
     }
+    //TODO follow
+    if (!first.contains(MyTag.EPS))
+      buf.append("default: throw new MyParseException(\"can't parse\", lexer.getCurPos());");
     buf.append("}\n");
   }
 

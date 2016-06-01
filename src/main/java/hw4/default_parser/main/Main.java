@@ -5,6 +5,8 @@ import hw4.default_parser.g4.ANTLRv4Parser;
 import hw4.default_parser.lexer.MyLexer;
 import hw4.default_parser.lexer.MyParseException;
 import hw4.default_parser.lexer.MyTag;
+//import hw4.default_parser.parser.MyParser;
+//import hw4.default_parser.parser.MyParser;
 import hw4.default_parser.rules.parser.ParserRuleInfo;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
@@ -21,11 +23,13 @@ public class Main {
   public static void main(String[] args) throws IOException, MyParseException {
 //    String str = " var   b: char;\n c, d : integer;\n var a, b, c, d, asdfasdf : char;\n";
 //    InputStream is = new ByteArrayInputStream(str.getBytes());
+//    MyParser parser = new MyParser(is);
+//    parser.start();
 //    MyLexer lexer = new MyLexer(is);
 //    while (lexer.nextToken().tag != MyTag.END) {
 //      System.err.println(lexer.getLastToken());
 //    }
-    ANTLRInputStream in = new ANTLRInputStream(Main.class.getResourceAsStream("Pascal.g4"));
+    ANTLRInputStream in = new ANTLRInputStream(Main.class.getResourceAsStream("Temp.g4"));
     ANTLRv4Lexer lexer = new ANTLRv4Lexer(in);
     CommonTokenStream tokens = new CommonTokenStream(lexer);
     ANTLRv4Parser parser = new ANTLRv4Parser(tokens);
@@ -39,7 +43,7 @@ public class Main {
 //    System.out.println(parserGenr);
     parser.lexerGenr.generateLexer();
     parserGenr.build();
-    System.err.println(Arrays.toString(parserGenr.name2info.get("unused").firstForAlt.toArray()));
+//    System.err.println(Arrays.toString(parserGenr.name2info.get("unused").firstForAlt.toArray()));
     try (PrintWriter fos = new PrintWriter(new FileOutputStream("res.txt"))) {
     }
   }

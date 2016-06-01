@@ -727,7 +727,7 @@ public class HaskellParser extends Parser {
 				}
 				setState(114);
 				((FactContext)_localctx).unit = unit(_localctx.toGen);
-				 _localctx.sb.append((((FactContext)_localctx).sign!=null?((FactContext)_localctx).sign.getText():null)).append(((FactContext)_localctx).unit.text); 
+				 _localctx.sb.append((((FactContext)_localctx).sign!=null?((FactContext)_localctx).sign.getText():null)).append(((FactContext)_localctx).unit.text);
 				}
 				}
 				setState(121);

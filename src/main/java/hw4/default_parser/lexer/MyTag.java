@@ -8,12 +8,8 @@ public final class MyTag {
   public static final int EPS = -1;
   public static final int T__0 = 0;// var
   public static final int T__1 = 1;// :
-  public static final int T__2 = 2;// ;\n
-  public static final int T__3 = 3;// ,
-  public static final int T__4 = 4;// ;
-  public static final int Type = 5;
-  public static final int NewType = 6;
-  public static final int Gram = 7;
-  public static final int Name = 8;
+  public static final int T__2 = 2;// ;
+  public static final int Type = 3;
+  public static final int Name = 4;
 
 }

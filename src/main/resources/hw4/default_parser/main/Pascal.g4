@@ -75,7 +75,5 @@ unused                     [Tree node]
     ;
 
 Type     : 'integer' | 'char' | 'double';
-NewType     : 'int' | 'c';
-Gram     : [a]*;
 Name     : [a-z_][a-z0-9_]*;
 

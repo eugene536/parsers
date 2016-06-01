@@ -16,6 +16,8 @@ public class ParserGenerator {
   public HashMap<String, ParserRuleInfo> name2info = new HashMap<>();
   public String curName;
   public ParserRuleInfo curInfo;
+  public String members;
+  public String headers;
   private PrintStream out;
 
   public void nextAlternative() {
@@ -90,23 +92,28 @@ public class ParserGenerator {
   }
 
   private void createClass() {
-    //TODO: headers
     createHeaders();
-    out.println("class MyParser {\n");
-    //TODO: members
+    out.println("public class MyParser {\n");
+    createMembers();
+  }
+
+  private void createMembers() {
+    if (members != null)
+      out.println(members);
   }
 
   private void createHeaders() {
     out.println("package hw4.default_parser.parser;");
-    out.println("import hw4.default_parser.lexer.MyLexer;");
-    out.println("import hw4.default_parser.lexer.MyParseException;");
+    out.println("import hw4.default_parser.lexer.*;");
     out.println("import java.io.InputStream;");
     out.println("import static hw4.default_parser.lexer.MyTag.*;");
+    if (headers != null)
+      out.println(headers);
   }
 
   private void createLexer() {
-    out.println("MyLexer lexer;");
-    out.println("MyParser(InputStream is) throws MyParseException  {\n lexer = new MyLexer(is);");
+    out.println("public MyLexer lexer;");
+    out.println("public MyParser(InputStream is) throws MyParseException  {\n lexer = new MyLexer(is);");
     out.println("lexer.nextToken();\n}");
   }
 
@@ -114,6 +121,12 @@ public class ParserGenerator {
     out.println("public static class AllContexts {\n");
     for (String key : name2info.keySet()) {
       out.println("public Context" + key + " " + key + ";\n");
+    }
+
+    for (String key : LexerGenerator.keys) {
+      if (!LexerGenerator.terms.containsValue(key)) {
+        out.println("public MyToken " + key + ";");
+      }
     }
     out.println("}");
   }

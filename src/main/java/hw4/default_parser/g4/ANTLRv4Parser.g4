@@ -95,7 +95,15 @@ idList
 
 // Match stuff like @parser::members {int i;}
 action
-	:	AT (actionScopeName COLONCOLON)? identifier actionBlock
+	:	AT (actionScopeName COLONCOLON)?
+        identifier
+        actionBlock {
+            if ($identifier.text.equals("header")) {
+                parserGenr.headers = $actionBlock.res;
+            } else {
+                parserGenr.members = $actionBlock.res;
+            }
+        }
 	;
 
 // Scope names could collide with keywords; allow them as ids for action scopes
@@ -287,7 +295,7 @@ element             returns [Rule rule]
 //	|	ebnf                        { System.out.println("ebnf: " + $ebnf.text); }
 
     // {..}
-	|	actionBlock { $rule = new ActionRule($actionBlock.text); }
+	|	actionBlock { $rule = new ActionRule($actionBlock.res); }
 	// HERE QUESTION needed in haskel.g4
 //	QUESTION?		{ System.out.println("actionBlock: " + $actionBlock.text); }
 	// SEMPRED is actionBlock followed by QUESTION

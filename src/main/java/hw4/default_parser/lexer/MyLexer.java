@@ -25,15 +25,10 @@ public class MyLexer {
 
     reserve(new MyToken(MyTag.T__0, "^var$"));
     reserve(new MyToken(MyTag.T__1, "^:$"));
-    reserve(new MyToken(MyTag.T__2, "^;\n$"));
-    reserve(new MyToken(MyTag.T__3, "^,$"));
-    reserve(new MyToken(MyTag.T__4, "^;$"));
+    reserve(new MyToken(MyTag.T__2, "^;$"));
     reserve(new MyToken(MyTag.Type, "^integer$"));
     reserve(new MyToken(MyTag.Type, "^char$"));
     reserve(new MyToken(MyTag.Type, "^double$"));
-    reserve(new MyToken(MyTag.NewType, "^int$"));
-    reserve(new MyToken(MyTag.NewType, "^c$"));
-    reserve(new MyToken(MyTag.Gram, "^[a]*$"));
     reserve(new MyToken(MyTag.Name, "^[a-z_][a-z0-9_]*$"));
 
 
@@ -54,7 +49,7 @@ public class MyLexer {
     }
 
     StringBuilder b = new StringBuilder();
-    while (peek != -1 && peek != ' ') {
+    while (peek != -1) {
       b.append((char) peek);
 
       String s = b.toString();
@@ -69,6 +64,7 @@ public class MyLexer {
           return lastToken = prevWord;
         }
       }
+      assert peek != ' ';
 
       nextChar();
     }
