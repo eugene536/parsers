@@ -5,10 +5,12 @@ import hw4.default_parser.g4.ANTLRv4Parser;
 import hw4.default_parser.lexer.MyLexer;
 import hw4.default_parser.lexer.MyParseException;
 import hw4.default_parser.lexer.MyTag;
+import hw4.default_parser.rules.parser.ParserRuleInfo;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 
 import java.io.*;
+import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -30,9 +32,14 @@ public class Main {
 
     parser.grammarSpec();
     ParserGenerator parserGenr = parser.parserGenr;
-//    parserGenr.build();
+    System.err.println("START");
+//    for (String key : parserGenr.name2info.keySet()) {
+//      System.err.println(key + " : " + Arrays.toString(parserGenr.name2info.get(key).firstForAlt.toArray()));
+//    }
 //    System.out.println(parserGenr);
     parser.lexerGenr.generateLexer();
+    parserGenr.build();
+    System.err.println(Arrays.toString(parserGenr.name2info.get("unused").firstForAlt.toArray()));
     try (PrintWriter fos = new PrintWriter(new FileOutputStream("res.txt"))) {
     }
   }

@@ -65,6 +65,15 @@ names2_in                  [Tree node]
       |/*eps*/
     ;
 
+unused                     [Tree node]
+                           returns [Tree n]
+                           @init {
+                              n = new Tree();
+                           }
+    : ';\n'
+    | names2_in vars_in ';' ','
+    ;
+
 Type     : 'integer' | 'char' | 'double';
 NewType     : 'int' | 'c';
 Gram     : [a]*;

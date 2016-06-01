@@ -13,6 +13,7 @@ public class LexerGenerator {
   public static HashMap<String, ArrayList<String>> alternatives = new HashMap<>();
   public static HashMap<String, String> terms = new HashMap<>();
   public static ArrayList<String> keys = new ArrayList<>();
+  public static HashMap<Integer, String> num2key = new HashMap<>();
   public String curRule;
   public int genNum = 0;
 
@@ -76,7 +77,14 @@ public class LexerGenerator {
         .append(key)
         .append(" = ")
         .append(num)
-        .append(";\n");
+        .append(";");
+      if (terms.containsValue(key)) {
+        sb.append("// ")
+          .append(alternatives.get(key).get(0));
+      }
+      sb.append("\n");
+
+      num2key.put(num, key);
 
       num++;
     }

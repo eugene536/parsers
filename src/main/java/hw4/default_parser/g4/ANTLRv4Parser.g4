@@ -268,7 +268,7 @@ alternative
 	:	(
 	        element { parserGenr.appendRule($element.rule); }
         )+
-	| /*explicitly allow empty alts */  { parserGenr.appendRule(new ParserRule(true)); }
+	| /*eps, explicitly allow empty alts */  { parserGenr.appendRule(new ParserRule(true)); }
 	;
 
 element             returns [Rule rule]
@@ -324,8 +324,7 @@ lexerAtom
 // atom: func_def[$func_decl.v]
 // atom: '\n'
 atom    returns [Rule rule]
-	:	terminal { $rule = $terminal.rule;
-                 }
+	:	terminal { $rule = $terminal.rule; }
 	|	ruleref  { $rule = $ruleref.rule; }
 	;
 
