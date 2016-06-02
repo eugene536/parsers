@@ -5,7 +5,7 @@ grammar Pascal;
 }
 
 @parser::members {
-    Tree root;
+    public Tree root;
 }
 
 start
@@ -65,13 +65,13 @@ names2_in                  [Tree node]
       |/*eps*/
     ;
 
-unused                     [Tree node]
+unused                     [Tree node, String res]
                            returns [Tree n]
                            @init {
-                              n = new Tree();
+                              $n = new Tree("asdf");
                            }
     : ';\n'
-    | names2_in vars_in ';' ','
+    | names2_in[node] vars_in[node] ';' ','
     ;
 
 Type     : 'integer' | 'char' | 'double';

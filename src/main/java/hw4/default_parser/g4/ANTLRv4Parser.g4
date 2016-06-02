@@ -60,7 +60,7 @@ option
 optionValue
 	:	identifier (DOT identifier)*
 	|	STRING_LITERAL
-	|	actionBlock			// TODO: is this valid?
+	|	actionBlock
 	|	INT
 	;
 

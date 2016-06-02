@@ -25,7 +25,9 @@ public class MyLexer {
 
     reserve(new MyToken(MyTag.T__0, "^var$"));
     reserve(new MyToken(MyTag.T__1, "^:$"));
-    reserve(new MyToken(MyTag.T__2, "^;$"));
+    reserve(new MyToken(MyTag.T__2, "^;\n$"));
+    reserve(new MyToken(MyTag.T__3, "^,$"));
+    reserve(new MyToken(MyTag.T__4, "^;$"));
     reserve(new MyToken(MyTag.Type, "^integer$"));
     reserve(new MyToken(MyTag.Type, "^char$"));
     reserve(new MyToken(MyTag.Type, "^double$"));

@@ -38,8 +38,26 @@ public class ParserRuleInfo {
     createContext(args);
     createContext(returns);
     createContext(locals);
+    createConstructor();
 
     buf.append("}\n");
+  }
+
+  private void createConstructor() {
+    buf.append("public Context" + name + "(");
+    if (args != null)
+      buf.append(args);
+    buf.append(") {\n");
+    if (args != null) {
+      ArrayList<String> ar = getArgsSplit();
+//      System.err.println(args + ": ");
+      for (String a: ar) {
+        buf.append("this." + a + " = " + a + ";\n");
+//        System.err.println(a);
+      }
+    }
+    buf.append("}\n");
+
   }
 
   private void createContext(String params) {
@@ -48,6 +66,37 @@ public class ParserRuleInfo {
       replaceCommas(sb);
       buf.append(sb);
     }
+  }
+
+  private ArrayList<String> getArgsSplit() {
+    ArrayList<String> res = new ArrayList<>();
+    int balance = 0;
+    for (int i = 0; i < args.length(); i++) {
+      if (Character.isWhitespace(args.charAt(i))) continue;
+      if (args.charAt(i) == '<') {
+        balance++;
+      } else if (args.charAt(i) == '>') {
+        balance--;
+      } else if (balance == 0 && args.charAt(i) == ',') {
+        String r = "";
+        int j = i - 1;
+        for (; args.charAt(j) == ' '; j--);
+        for (; args.charAt(j) != ' '; j--) {
+          r = args.charAt(j) + r;
+        }
+        res.add(r);
+      }
+    }
+
+    String r = "";
+    int j = args.length() - 1;
+    for (; args.charAt(j) == ' '; j--);
+    for (; args.charAt(j) != ' '; j--) {
+      r = args.charAt(j) + r;
+    }
+    res.add(r);
+
+    return res;
   }
 
   private void replaceCommas(StringBuilder sb) {
@@ -72,9 +121,12 @@ public class ParserRuleInfo {
   }
 
   private void createDeclaration() {
-    buf.append("public Context" + name + " " + name + "() throws MyParseException {\n");
-    createInit();
+    buf.append("public Context" + name + " " + name + "(");
+    if (args != null)
+      buf.append(args);
+    buf.append(") throws MyParseException {\n");
     createLocalContext();
+    createInit();
     createSwitch();
 
     createReturn();
@@ -94,12 +146,14 @@ public class ParserRuleInfo {
       for (Rule r : alternatives.get(i)) {
         if (r instanceof ParserRule) {
           if (((ParserRule) r).epsilon) continue;
-          //TODO: add inherited args
           buf.append("lctx.")
             .append(r.text)
             .append(" = ")
             .append(r.text)
-            .append("();\n");
+            .append("(");
+          if (((ParserRule) r).args != null)
+            buf.append(((ParserRule) r).args.replaceAll("\\$", "lctx."));
+          buf.append(");\n");
         } else if (r instanceof ActionRule) {
           buf.append(r.text.replaceAll("\\$", "lctx."));
         } else if (r instanceof LexerRule) {
@@ -139,13 +193,18 @@ public class ParserRuleInfo {
   }
 
   private void createLocalContext() {
-    buf.append("Context" + name + " lctx = new Context" + name + "();\n");
+    buf.append("Context" + name + " lctx = new Context" + name + "(");
+    if (args != null) {
+      for (String a: getArgsSplit())
+        buf.append(a + ", ");
+      buf.delete(buf.length() - 2, buf.length());
+    }
+    buf.append(");\n");
   }
 
-  //TODO: init $ dependent
   private void createInit() {
-//    if (init != null) {
-//      buf.append(init + "\n");
-//    }
+    if (init != null) {
+      buf.append(init.replaceAll("\\$", "lctx.") + "\n");
+    }
   }
 }
